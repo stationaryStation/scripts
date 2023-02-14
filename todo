@@ -5,13 +5,20 @@
 current_date=$(date -I)
 opt2=$2
 
-create_todo() {
+new_todo() {
 	mkdir -p ~/todo
 	touch ~/todo/${current_date}.todo
 }
 
+create_todo() {
+	mkdir -p ~/todo
+	touch ~/todo/$1.todo
+}
+
 edit_todo() {
-	if [ -f "~/todo/$current_date.todo" ]; then
+	if [[ $1 && -f "~/todo/$1.todo" ]]; then
+		vim ~/todo/${1}.todo
+	elif [ -f "~/todo/$current_date.todo" ]; then
 		vim ~/todo/${current_date}.todo
 	else
 		create_todo
@@ -33,18 +40,22 @@ list_todo() {
 }
 
 
-if [[ $1 == "create" ]]; then
-	create_todo
+if [[ $1 == "new" ]]; then
+	new_todo
 	echo "Created todo in ~/todo/ as ${current_date}.todo"
+elif [[ $1 == "create" ]]; then
+	create_todo "$2"
+	echo "Created todo in ~/todo/ as $2.todo"
 elif [[ $1 == "edit" ]]; then
-	edit_todo
+	edit_todo $2
 elif [[ $1 == "delete" ]]; then
 	delete_todo "$2"
 elif [[ $1 == "list" ]]; then
 	list_todo
 else
 	echo "Usage:"
-	echo "create: creates todo file on ~/todo with current date as title"
+	echo "create: create a todo file with second argument as title"
+	echo "new: creates todo file on ~/todo with current date as title"
 	echo "edit: edits today's todo"
 	echo "delete: delete a todo file"
 	echo "list: lists all todo files"
