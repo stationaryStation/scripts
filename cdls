@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-cd "$1"; ls -lah
+cd "$1" && ls -lah
