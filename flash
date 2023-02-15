@@ -67,6 +67,12 @@ help_func() {
 	echo "edit <filename>"
 	echo "edit a flashcard file"
 	echo "---"
+	echo "list"
+	echo "list all flashcards in ~/flash"
+	echo "---"
+	echo "help"
+	echo "show this menu"
+	echo "---"
 	echo "USAGE: flashcards are separated using '---'"
 	echo "Top is the flashcard hint"
 	echo "Bottom is the flashcard content"
@@ -87,6 +93,9 @@ else
 			;;
 		"open")
 			read_flashcard "$2"
+			;;
+		"list")
+			ls -l $flashcards_dir
 			;;
 		*)
 			help_func
