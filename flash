@@ -1,0 +1,95 @@
+#!/bin/bash
+## FLASH
+## Flashcards right from your terminal
+## Author: StationaryStation
+
+flashcards_dir=~/flash
+
+init() {
+	echo "Flashcards directory not found... Creating"
+	mkdir -p ~/flash
+}
+
+read_flashcard() {
+	should_flash=0
+	short=""
+	long=""
+	if [ "$1" ] && [ -f "$flashcards_dir/$1.flash" ]; then
+		flashcard_path=$flashcards_dir/$1.flash
+		while IFS= read -r line
+		do
+			if [ "$line" == '---' ]; then
+				should_flash=1
+			fi
+
+			case $should_flash in
+				0)
+					short=$line
+					;;
+				1)
+					long="$long
+$line"
+					;;
+			esac
+		done < "$flashcard_path"
+
+		echo "$short"
+		echo "press any key to continue..."
+		while [ true ] ; do
+			read -t 3 -n 1
+			if [ $? = 0 ] ; then
+				echo "$long"
+				exit
+			fi
+		done
+	elif [ "$1" ]; then
+		echo "Flashcard not found"
+	else
+		echo "You need to provide a flashcard name"
+	fi
+}
+
+create_flashcard() {
+	touch "$flashcards_dir/$1.flash"
+	vim "$flashcards_dir/$1.flash"
+}
+
+help_func() {
+	echo "Flash"
+	echo "Small flashcards utility"
+	echo "---"
+	echo "new <filename>"
+	echo "creates a new flashcard and edit it"
+	echo "---"
+	echo "open <filename>"
+	echo "open a flashcard"
+	echo "---"
+	echo "edit <filename>"
+	echo "edit a flashcard file"
+	echo "---"
+	echo "USAGE: flashcards are separated using '---'"
+	echo "Top is the flashcard hint"
+	echo "Bottom is the flashcard content"
+}
+
+if [ ! -d "~/flash" ] || [ ! -d "$flashcards_dir" ]; then
+	init
+else
+	case $1 in
+		"new")
+			create_flashcard "$2"
+			;;
+		"help")
+			help_func
+			;;
+		"edit")
+			vim "$flashcards_dir/$2.flash"
+			;;
+		"open")
+			read_flashcard "$2"
+			;;
+		*)
+			help_func
+			;;
+	esac
+fi
