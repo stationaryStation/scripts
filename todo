@@ -3,33 +3,37 @@
 ## Cool lightweight app made by StationaryStation
 
 current_date=$(date -I)
-opt2=$2
-
-new_todo() {
-	mkdir -p ~/todo
-	touch ~/todo/${current_date}.todo
-}
 
 create_todo() {
 	mkdir -p ~/todo
-	touch ~/todo/$1.todo
+	
+	if [ "$1" ]; then
+	       if [ "$1" == "daily" ]; then
+			touch "~/todo/${current_date}.todo"
+			echo "Created todo in ~/todo/ as ${current_date}.todo"
+		else
+			touch ~/todo/${1}.todo
+			echo "Created todo in ~/todo/ as ${1}.todo"
+	       fi
+	else
+		echo "You need to provide a name"
+	fi
 }
 
 edit_todo() {
-	if [[ $1 && -f "~/todo/$1.todo" ]]; then
+	if [ "$1" ] && [ -f ~/todo/$1.todo ]; then
 		vim ~/todo/${1}.todo
-	elif [ -f "~/todo/$current_date.todo" ]; then
+	elif [ "$1" == "daily" ] && [ -f ~/todo/${current_date}.todo ]; then
 		vim ~/todo/${current_date}.todo
 	else
-		create_todo
-		vim ~/todo/${current_date}.todo
+		echo "Todo not found..."
 	fi
 }
 
 delete_todo() {
-	if [[ -f ~/todo/${opt2}.todo ]]; then
-		rm ~/todo/${opt2}.todo
-		echo "deleted $1"
+	if [ -f ~/todo/${1}.todo ]; then
+		rm ~/todo/${1}.todo
+		echo "deleted ${1}"
 	else
 		echo "Todo not found"
 	fi
@@ -39,24 +43,18 @@ list_todo() {
 	ls -lh ~/todo
 }
 
-
-if [[ $1 == "new" ]]; then
-	new_todo
-	echo "Created todo in ~/todo/ as ${current_date}.todo"
-elif [[ $1 == "create" ]]; then
+if [ "$1" == "new" ]; then
 	create_todo "$2"
-	echo "Created todo in ~/todo/ as $2.todo"
-elif [[ $1 == "edit" ]]; then
-	edit_todo $2
-elif [[ $1 == "delete" ]]; then
+elif [ "$1" == "edit" ]; then
+	edit_todo "$2"
+elif [ "$1" == "delete" ]; then
 	delete_todo "$2"
-elif [[ $1 == "list" ]]; then
+elif [ "$1" == "list" ]; then
 	list_todo
 else
 	echo "Usage:"
-	echo "create: create a todo file with second argument as title"
-	echo "new: creates todo file on ~/todo with current date as title"
-	echo "edit: edits today's todo"
+	echo "new: create new todo file"
+	echo "edit: edit a todo file"
 	echo "delete: delete a todo file"
 	echo "list: lists all todo files"
 fi
