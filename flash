@@ -78,7 +78,7 @@ help_func() {
 	echo "Bottom is the flashcard content"
 }
 
-if [ ! -d "~/flash" ] || [ ! -d "$flashcards_dir" ]; then
+if [ ! -d "$flashcards_dir" ]; then
 	init
 else
 	case $1 in
