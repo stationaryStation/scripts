@@ -8,7 +8,7 @@
 ## TODOCLI
 ## Cool lightweight app made by StationaryStation
 
-current_date=$(date -I)
+current_date=$(date +%F)
 
 create_todo() {
 	mkdir -p ~/todo
