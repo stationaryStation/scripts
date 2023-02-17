@@ -28,9 +28,9 @@ create_todo() {
 
 edit_todo() {
 	if [ "$1" ] && [ -f ~/todo/$1.todo ]; then
-		vim ~/todo/${1}.todo
+		$EDITOR ~/todo/${1}.todo
 	elif [ "$1" == "daily" ] && [ -f ~/todo/${current_date}.todo ]; then
-		vim ~/todo/${current_date}.todo
+		$EDITOR ~/todo/${current_date}.todo
 	else
 		echo "Todo not found..."
 	fi
