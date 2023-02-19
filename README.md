@@ -15,4 +15,8 @@ run this (trust)
 3. restart or source `.bashrc`
 4. profit
 
+## Updating
 
+Use the `installer` script
+
+`installer`
