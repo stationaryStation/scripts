@@ -7,3 +7,5 @@ scripts repo
 2. add repo to bash path (basically, add `PATH="/home/{username}/scripts:$PATH"` to your bashrc)
 3. restart or source `.bashrc`
 4. profit
+
+Installer comming soon btw :D
