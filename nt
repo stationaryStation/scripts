@@ -1,0 +1,71 @@
+#!/bin/bash
+# This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along with this program. If not, see <https://www.gnu.org/licenses/>.
+
+# Notes
+# Simple notes application
+# Author: Stationarystation
+
+# Change this if you want to store notes elsewhere
+notes_dir=~/notes
+
+create_note() {
+	mkdir -p $notes_dir
+	if [ "$1" ]; then 
+		touch $notes_dir/${1}.nt
+		$EDITOR $notes_dir/${1}.nt
+	else
+		echo "Please provide a name"
+	fi
+}
+
+list_notes() {
+	ls ~/notes
+}
+
+edit_note() {
+	if [ -f $notes_dir/${1}.nt ]; then
+		$EDITOR $notes_dir/${1}.nt
+	else
+		echo "Note not found"
+	fi
+}
+
+delete_note() {
+	if [ -f $notes_dir/${1}.nt ]; then
+		rm $notes_dir/${1}.nt
+		echo "Deleted $1.nt"
+	else
+		echo "File not found"
+	fi
+}
+
+case "$1" in
+	"create")
+		create_note "$2"
+		;;
+	"edit")
+		edit_note "$2"
+		;;
+	"list")
+		list_notes
+		;;
+	"delete")
+		delete_note "$2"
+		;;
+	"help")
+		echo "Notes"
+		echo -n
+		echo "USAGE: nt create <filename>  (Create a note)"
+		echo "	  delete <filename>  (Delete a note)"
+		echo "	  edit   <filename>  (Edit a note)"
+		echo "	  list               (List all notes)"
+		echo "	  help               (Display this menu)"
+		;;
+	*)
+		echo "Command not found"
+		;;
+esac
