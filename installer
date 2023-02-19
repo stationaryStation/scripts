@@ -3,6 +3,7 @@
 # Installer for stationarystation/scripts repo
 
 if [ -d $HOME/scripts ]; then
+	cd $HOME/scripts
 	git remote update
 	UPSTREAM=${1:-'@{u}'}
 	LOCAL=$(git rev-parse @)
