@@ -5,21 +5,25 @@
 #
 # You should have received a copy of the GNU General Public License along with this program. If not, see <https://www.gnu.org/licenses/>. 
 
-## TODOCLI
-## Cool lightweight app made by StationaryStation
+# todo
+# Make and edit todo lists
+# Author: StationaryStation
+
+# Change this to store todo lists elsewhere
+todo_dir=~/todo
 
 current_date=$(date +%F)
 
 create_todo() {
-	mkdir -p ~/todo
+	mkdir -p $todo_dir
 	
 	if [ "$1" ]; then
 	       if [ "$1" == "daily" ]; then
-			touch ~/todo/${current_date}.todo
-			echo "Created todo in ~/todo/ as ${current_date}.todo"
+			touch $todo_dir/${current_date}.todo
+			echo "Created todo in $todo_dir/ as ${current_date}.todo"
 		else
-			touch ~/todo/${1}.todo
-			echo "Created todo in ~/todo/ as ${1}.todo"
+			touch $todo_dir/${1}.todo
+			echo "Created todo in $todo_dir/ as ${1}.todo"
 	       fi
 	else
 		echo "You need to provide a name"
@@ -27,18 +31,18 @@ create_todo() {
 }
 
 edit_todo() {
-	if [ "$1" ] && [ -f ~/todo/$1.todo ]; then
-		$EDITOR ~/todo/${1}.todo
-	elif [ "$1" == "daily" ] && [ -f ~/todo/${current_date}.todo ]; then
-		$EDITOR ~/todo/${current_date}.todo
+	if [ "$1" ] && [ -f $todo_dir/$1.todo ]; then
+		$EDITOR $todo_dir/${1}.todo
+	elif [ "$1" == "daily" ] && [ -f $todo_dir/${current_date}.todo ]; then
+		$EDITOR $todo_dir/${current_date}.todo
 	else
 		echo "Todo not found..."
 	fi
 }
 
 delete_todo() {
-	if [ -f ~/todo/${1}.todo ]; then
-		rm ~/todo/${1}.todo
+	if [ -f $todo_dir/${1}.todo ]; then
+		rm $todo_dir/${1}.todo
 		echo "deleted ${1}"
 	else
 		echo "Todo not found"
@@ -46,7 +50,7 @@ delete_todo() {
 }
 
 list_todo() {
-	ls -lh ~/todo
+	ls -lh $todo_dir
 }
 
 case "$1" in

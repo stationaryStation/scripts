@@ -4,15 +4,17 @@
 # This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License along with this program. If not, see <https://www.gnu.org/licenses/>.
-## FLASH
-## Flashcards right from your terminal
-## Author: StationaryStation
 
+# flash
+# Flashcards right from your terminal
+# Author: StationaryStation
+
+# Change this if you want to store flashcards elsewhere
 flashcards_dir=~/flash
 
 init() {
 	echo "Flashcards directory not found... Creating"
-	mkdir -p ~/flash
+	mkdir -p $flashcards_dir
 }
 
 read_flashcard() {
@@ -56,7 +58,7 @@ $line"
 
 create_flashcard() {
 	touch "$flashcards_dir/$1.flash"
-	vim "$flashcards_dir/$1.flash"
+	$EDITOR "$flashcards_dir/$1.flash"
 }
 
 help_func() {
@@ -94,13 +96,13 @@ else
 			help_func
 			;;
 		"edit")
-			vim "$flashcards_dir/$2.flash"
+			$EDITOR "$flashcards_dir/$2.flash"
 			;;
 		"open")
 			read_flashcard "$2"
 			;;
 		"list")
-			ls -l $flashcards_dir
+			ls $flashcards_dir
 			;;
 		*)
 			help_func
