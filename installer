@@ -1,0 +1,28 @@
+#!/bin/bash
+
+# Installer for stationarystation/scripts repo
+
+if [ -d $HOME/scripts ]; then
+	git remote update
+	UPSTREAM=${1:-'@{u}'}
+	LOCAL=$(git rev-parse @)
+	REMOTE=$(git rev-parse "$UPSTREAM")
+	BASE=$(git merge-base @ "$UPSTREAM")
+	if [ $LOCAL = $REMOTE ]; then
+    		echo "Scripts are up-to-date"
+	elif [ $LOCAL = $BASE ]; then
+    		echo "Updating Scripts Repo..."
+		git pull
+	fi
+elif [ ! -d $HOME/scripts ] && [ "$SHELL" == "/bin/bash" ]; then
+	cd $HOME
+	git clone https://github.com/stationarystation/scripts.git
+	echo -e "\n# scripts start\nexport PATH=\"$HOME/scripts:\$PATH\"\n# scripts end" >> $HOME/.bashrc
+	echo "Installation complete"
+	echo "Please restart your terminal session or run source ~/.bashrc to start using the scripts"
+else
+	echo "Unsupported Shell"
+	echo "Please submit an issue to the repo"
+fi
+
+
