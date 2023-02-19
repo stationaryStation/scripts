@@ -1,4 +1,4 @@
-# <img src="https://github.com/stationaryStation/scripts/blob/assets/Scripts.png?raw=true" width=42 height=42 /> Scripts
+# Scripts
 Collection of bash scripts to speed up my workflow
 
 ## How 2 Install
