@@ -9,4 +9,4 @@
 # Simple dmenu script that adds power options to it
 # Author: StationaryStation
 
-echo -e "poweroff\nsuspend\nreboot" | dmenu | xargs systemctl > /dev/null
+echo -e "poweroff\nsuspend\nreboot" | dmenu_s -p "Shutdown Options" | xargs systemctl > /dev/null

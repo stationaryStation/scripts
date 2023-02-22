@@ -1,0 +1,2 @@
+#!/bin/bash
+dmenu -nb "#190b14" -nf "#dec1d4" -sb "#d8a4c6" -sf "#190b14" -fn "JetBrains Mono-13" "$@"
